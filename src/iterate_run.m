@@ -45,7 +45,7 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
     % fprintf('The minimum potential is: %f\n', mini);
     mini = 0;
     
-    r_schrod = [mini, mini+10];
+    r_schrod = [mini, mini+2];
     b_schrod = generate_dirichlet_boundary( N );
     
     psi_schrodinger = []; % initialize the matrix psi_schrodinger
@@ -113,7 +113,7 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
         end
         % increase the search range
         r_schrod(1) = r_schrod(2);
-        r_schrod(2) = r_schrod(2) + 10;
+        r_schrod(2) = r_schrod(2) + 2;
         
         n_iter = n_iter + 1;
     end
