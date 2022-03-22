@@ -21,7 +21,8 @@ function plot_figures(N, epsilon_F, psi_schrodinger, E_schrodinger, V_poiss, for
     
     for i = 1 : N
         figure
-        pdesurf(l0 * p_schrod, t_schrod, (normalization(i)*psi_schrodinger(:,i)).^2 );
+        % pdesurf(l0 * p_schrod, t_schrod, (normalization(i)*psi_schrodinger(:,i)).^2 );
+        pdesurf(l0 * p_schrod, t_schrod, psi_schrodinger(:,i) );
         view(0, 90);
         colormap jet;
         set(gcf, 'Renderer', 'zbuffer');
@@ -32,6 +33,21 @@ function plot_figures(N, epsilon_F, psi_schrodinger, E_schrodinger, V_poiss, for
         axis off;
         
         saveas(gcf, ['./data/plots/figures/wavefunction_', num2str(i), format]);
+    end
+    
+    for i = 1 : N
+        figure
+        pdesurf(l0 * p_schrod, t_schrod, (normalization(i)*psi_schrodinger(:,i)).^2 );
+        view(0, 90);
+        colormap jet;
+        set(gcf, 'Renderer', 'zbuffer');
+        xlabel('x (nm)');
+        ylabel('y (nm)');
+        title(['E_{',num2str(i),'} = ',num2str(C*E_schrodinger(i)),' eV']);
+        axis equal;
+        axis off;
+        
+        saveas(gcf, ['./data/plots/figures/wavefunction_', num2str(i), '_squared', format]);
     end
     
     %% plot the band-bending diagram and Fermi level

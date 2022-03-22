@@ -16,7 +16,7 @@ function V_conduction_band_val = V_conduction_band(x, y)
    
     V_conduction_band_val = eval(V_expression);
     
-    save(save_file, '-append');
+%    save(save_file, '-append');
     
     %% debug purpose, showing the string representing the v_cb
     if debug

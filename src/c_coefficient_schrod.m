@@ -7,7 +7,7 @@ function c_coeff_schrod = c_coefficient_schrod(sd)
     
     %% debug purpose
     global save_file;
-    save(save_file, 'sd', 'c_coeff_schrod', '-append');
+%    save(save_file, 'sd', 'c_coeff_schrod', '-append');
     %%
     
 end

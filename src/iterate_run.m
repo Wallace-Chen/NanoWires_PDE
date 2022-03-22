@@ -45,7 +45,7 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
     % fprintf('The minimum potential is: %f\n', mini);
     mini = 0;
     
-    r_schrod = [mini, mini+2];
+    r_schrod = [mini, mini+1];
     b_schrod = generate_dirichlet_boundary( N );
     
     psi_schrodinger = []; % initialize the matrix psi_schrodinger
@@ -56,13 +56,6 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
     
     n_iter = 1;
     while isempty(E_schrodinger) || E_schrodinger(end) <= epsilon_F
-        % printing info
-        ele_energy_high = 0;
-        if ~isempty(E_schrodinger)
-            ele_energy_high = E_schrodinger(end);
-        end
-%        fprintf('    %d iters: %d electrons, fermi energy: %f, the highest ele energy: %f, the higher end of range: %d \n',...
-%            n_iter, length(E_schrodinger), epsilon_F, ele_energy_high, r_schrod(end));
         
         % solve for N coupled schrodinger equations
         [~, v_add, l_add] = ...
@@ -113,7 +106,7 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
         end
         % increase the search range
         r_schrod(1) = r_schrod(2);
-        r_schrod(2) = r_schrod(2) + 2;
+        r_schrod(2) = r_schrod(2) + 1;
         
         n_iter = n_iter + 1;
     end

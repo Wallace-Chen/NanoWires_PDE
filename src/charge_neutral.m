@@ -2,6 +2,7 @@
 function residual = charge_neutral( E_F, V_midpoint, triangle_areas, E_schrodinger, psi_sqrt_m )
 
     global p_poiss; global t_poiss;
+    global l0;
     
     %%
     % the number of states occupied by electrons
@@ -22,9 +23,10 @@ function residual = charge_neutral( E_F, V_midpoint, triangle_areas, E_schroding
     % n_D(x,y) integrated over depletion region
     residual = (triangle_indices_above_E_F .* triangle_areas) * avg_n_D_val;
     
+    factor = (l0 / 10 ) ^ 3;
     % take care of the contribution from electrons
     for i = 1 : n_quanta
-        residual = residual - 1 / pi * sqrt( E_F-E_schrodinger(i) ) * psi_sqrt_m(i);
+        residual = residual - 1 / pi *  factor * sqrt( E_F-E_schrodinger(i) ) * psi_sqrt_m(i);
     end
 
 end

@@ -54,7 +54,7 @@ function main()
     for i = 1 : number_of_interfaces
         name_of_save_file = [name_of_save_file, '_', num2str(vector_of_side_lengths(i))];
     end
-    save_file = [name_of_save_file, '_debug_new', '.mat'];
+    save_file = ['./data/', name_of_save_file, '_noex', '.mat'];
     
     save(save_file);
     %% preprocessing of variables

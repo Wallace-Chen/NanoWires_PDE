@@ -34,12 +34,13 @@ function main()
     global ckp_average_change;
     global ckp_epsilon_F;
     global ckp_E_schrodinger;
+    global ckp_psi_schrodinger;
     %% metric variables declaration
     ckp_n = []; % array to hold number of eletrons below fermi level for each iterations
     ckp_average_change = []; % array to hold average change of potentials (exclude exchange potential) for each iterations
     ckp_epsilon_F = []; % array to hold fermi levels for each iterations
     ckp_E_schrodinger = {}; % cell array to hold electrons' energies for each iterations
-    
+    ckp_psi_schrodinger = {}; % cell array to hold electrons' wavefunctions for each iterations
     %% Preparation, load constants and variables
     
     % load constants from the file
@@ -54,7 +55,7 @@ function main()
     for i = 1 : number_of_interfaces
         name_of_save_file = [name_of_save_file, '_', num2str(vector_of_side_lengths(i))];
     end
-    save_file = [name_of_save_file, '_debug_new', '.mat'];
+    save_file = ['./data/', name_of_save_file, '_ex', '.mat'];
     
     save(save_file);
     %% preprocessing of variables
@@ -99,10 +100,11 @@ function main()
     ckp_average_change = [0];
     ckp_epsilon_F = [epsilon_F];
     ckp_E_schrodinger{end+1} = E_schrodinger(1:N);
+    ckp_psi_schrodinger{end+1} = psi_schrodinger;
     %% solve problem iteratively
     good_iters = 0;
     % require at least 10 interations, apply convergence criteria
-    while n_iter <= 10 || good_iters < 3
+    while n_iter <= 10 || good_iters < 1
 
         fprintf('---------- Solving, the # of iteration: %d\n', n_iter);
         fprintf('  Input: %d electrons, the fermi enery is: %f, the average change: %f the computed energies are: \n', N, epsilon_F, average_change);
@@ -113,6 +115,9 @@ function main()
         [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
             iterate_run(N_old, V_poiss_old, V_xc_old);
         
+        % [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = ...
+        %    iterate_run_new(N_old, V_poiss_old, V_xc_old);
+        
         average_change = mean( abs(V_poiss-V_poiss_old) );
         
         % store checkpoints
@@ -120,6 +125,7 @@ function main()
         ckp_average_change = [ckp_average_change, average_change];
         ckp_epsilon_F = [ckp_epsilon_F, epsilon_F];
         ckp_E_schrodinger{end+1} = E_schrodinger(1:N);
+        ckp_psi_schrodinger{end+1} = psi_schrodinger;
         
         % compute damping factor
         if average_change < 70
@@ -132,7 +138,7 @@ function main()
         fprintf(['Potential change percent is: ', num2str(average_change/mean(abs(V_poiss))), '\n']);
         fprintf(['Damping factor is: ', num2str(damping_factor), '\n']);
         
-        if average_change / mean(abs(V_poiss)) > 0.1 || average_change > 0.01/C || N ~= N_old
+        if average_change / mean(abs(V_poiss)) > 0.1 || average_change > 0.01/C % || N ~= N_old
             good_iters = 0;
         else
             good_iters = good_iters + 1;
@@ -148,19 +154,20 @@ function main()
         n_iter = n_iter + 1;
         
         %% debug purpose, force stop
-        if n_iter > 70
+        if n_iter > 50
             break
         end
         
     end
     
+    %%
     fprintf('Iteration finished. \n');
     fprintf('%d electrons, the fermi enery is: %f, the average change: %f \n', N, epsilon_F, average_change);
-    %% plot
-    plot_checkpoints('_ex');
-    plot_figures(N, epsilon_F, psi_schrodinger, E_schrodinger, V_poiss, '.jpg');
     %% save variables in .mat file
     save(save_file, '-append');
     fprintf('\n Variables saved to the file %s. \n', save_file);
+    %% plot
+    plot_figures(N, epsilon_F, psi_schrodinger, E_schrodinger, V_poiss, '.jpg');
+    plot_checkpoints('_ex');
     
 end

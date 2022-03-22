@@ -7,7 +7,7 @@ function n_D = set_doping_density_function(x, y)
     % inputted by the user as an array-smart expression. For example, if you
     % want to specify a doping density of the form 0.4*exp(-0.1*(x^2+y^2)), the
     % above line would be changed to n_D=0.4*exp(-0.1*(x.^2+y.^2));
-    n_D = 0.2;
+    n_D = 0.1;
 
 
     if length( n_D ) == 1

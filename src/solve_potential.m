@@ -42,15 +42,15 @@ function [V_poiss, V_xc] = solve_potential(N, epsilon_F, E_schrodinger, psi_schr
     V_poiss = V_poiss - min(V_poiss, [], 'all');
     
     %% N*N PDE EQUATIONS, for exchange potentials
-    f_poiss_ex = f_ex_coefficient(N);
-    % b_poiss_ex = generate_dirichlet_boundary( N*N );
     psi_sqrt_eps_xc_m = psi_sqrt_eps_xc( N, normalization, psi_schrodinger, epsilon_F, E_schrodinger );
-    if debug
-       disp("debug: initiate_system, showing the coefficients for the N*N poisson equations for exchange potentials...");
-       c_poiss
-       a_poiss
-       f_poiss_ex
-    end
+    % f_poiss_ex = f_ex_coefficient(N);
+    % b_poiss_ex = generate_dirichlet_boundary( N*N );
+    % if debug
+    %    disp("debug: initiate_system, showing the coefficients for the N*N poisson equations for exchange potentials...");
+    %   c_poiss
+    %   a_poiss
+    %   f_poiss_ex
+    % end
     % compute the exchange potentials, this takes a lot of time
     % V_xc = assempde(b_poiss_ex, p_poiss, e_poiss, t_poiss, c_poiss, a_poiss, f_poiss_ex);
     % V_xc = V_xc / C;

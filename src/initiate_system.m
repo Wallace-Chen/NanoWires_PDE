@@ -63,6 +63,10 @@ function [psi_schrodinger, E_schrodinger, epsilon_F, V_poiss, V_xc, N] = initiat
     
     % number of energy states below fermi level
     N = sum( epsilon_F >= E_schrodinger );
+    %% debug purpose
+    %N = 3;
+    %epsilon_F = E_schrodinger(N);
+    %% debug end
     
     % a row vector that calculates/contains the spatial regions of the
     % potential that are above the Fermi level; these spatial regions have

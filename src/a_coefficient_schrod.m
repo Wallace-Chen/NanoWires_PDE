@@ -55,6 +55,6 @@ function a = a_coefficient_schrod(N, V_elestat, V_xc)
     a = a - min(a, [], 'all');
     % a = a - mini;
     
-    save(save_file, '-append');
+%    save(save_file, '-append');
     
 end
