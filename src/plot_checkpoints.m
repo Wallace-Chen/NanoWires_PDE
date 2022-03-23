@@ -72,13 +72,13 @@ function plot_checkpoints(postfix)
     saveas(gcf, ['data/plots/ckps/occ_ene', postfix, '.jpeg'])
     
     % plot all found wavefunctions
-    for i = 18 : n_iter
+    for i = 1 : n_iter
         psi = ckp_psi_schrodinger{i};
         E = ckp_E_schrodinger{i};
         s = size(psi);
         for j = 1 : s(2)
             figure('visible','off');
-            pdesurf(l0 * p_schrod, t_schrod, psi(:,i) );
+            pdesurf(l0 * p_schrod, t_schrod, psi(:,j) );
             view(0, 90);
             colormap jet;
             set(gcf, 'Renderer', 'zbuffer');
